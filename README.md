@@ -4,9 +4,13 @@ Tento repozitár obsahuje Python implementáciu spojitého lineárneho časovo i
 ## Reakčná sieť (Varianta a)
 Systém pozostáva z troch premenných A, B a C s nasledujúcimi reakciami:
 A→B
+
 B→C
+
 C→A
+
 Prítok: _→A
+
 Odtoky: A→_, B→_, C→_
 
 Všetky reakčné koeficienty sú nastavené na 1.
