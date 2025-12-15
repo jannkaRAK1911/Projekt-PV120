@@ -15,7 +15,7 @@ from scipy.integrate import solve_ivp
 # 1. DEFINÍCIA MODELU (LTI ODE)
 # -------------------------------------------------
 
-def model(t, x):
+def model(x):
     A, B, C = x
     dA = -A + C + 1 - A   # A->B, C->A, prítok, odtok
     dB = A - B - B       # A->B, B->C, odtok
