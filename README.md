@@ -13,15 +13,15 @@ Všetky reakčné koeficienty sú nastavené na 1.
 
 ## Funkcie
 1. Simulácia v čase
-  - Sleduje koncentrácie A,B a C v čase pre rôzne počiatočné podmienky.
-  - Používa scipy.integrate.solve_ivp.
+    - Sleduje koncentrácie A,B a C v čase pre rôzne počiatočné podmienky.
+    - Používa scipy.integrate.solve_ivp.
 2. Analytické určenie ekvilibria
-  - Vypočíta ekvilibrium systému analyticky pomocou sympy.
+    - Vypočíta ekvilibrium systému analyticky pomocou sympy.
 3. Analýza stability
-  - Vypočíta Jacobiho maticu v ekvilibriu.
-  - Určí vlastné čísla na analýzu stability.
+    - Vypočíta Jacobiho maticu v ekvilibriu.
+    - Určí vlastné čísla na analýzu stability.
 4. 2D projekcie vektorového poľa
-  - Vizualizuje dynamiku systému v 2D projekciách (AB, AC, BC) pomocou quiver grafov.
+    - Vizualizuje dynamiku systému v 2D projekciách (AB, AC, BC) pomocou quiver grafov.
 
 ## Požiadavky
 
