@@ -15,6 +15,7 @@ from scipy.integrate import solve_ivp
 # 1. DEFINÍCIA MODELU (LTI ODE)
 # -------------------------------------------------
 
+
 def model(t,x):
     A, B, C = x
     dA = -A + C + 1 - A   # A->B, C->A, prítok, odtok
@@ -57,6 +58,7 @@ plt.show()
 
 A, B, C = sp.symbols('A B C', real=True)
 
+
 f1 = -A + C + 1 - A
 f2 = A - B - B
 f3 = B - C - C
@@ -82,27 +84,67 @@ print(J_eq.eigenvals())
 # 5. VEKTOROVÉ POLE – 2D PROJEKCIE
 # -------------------------------------------------
 
+# def vector_field(x, y, fixed_value, proj="AB"):
+#     if proj == "AB":
+#         A, B, C = x, y, fixed_value
+#     elif proj == "AC":
+#         A, B, C = x, fixed_value, y
+#     else:  # BC
+#         A, B, C = fixed_value, x, y
+    
+
+#     dA = -A + C + 1 - A
+#     dB = A - B - B
+#     dC = B - C - C
+
+#     if proj == "AB":
+#         return dA, dB
+#     elif proj == "AC":
+#         return dA, dC
+#     else:
+#         return dB, dC
+
 def vector_field(x, y, fixed_value, proj="AB"):
     if proj == "AB":
         A, B, C = x, y, fixed_value
+        dA, dB, _ = model(0, [A, B, C])
+        return dA, dB
+
     elif proj == "AC":
         A, B, C = x, fixed_value, y
+        dA, _, dC = model(0, [A, B, C])
+        return dA, dC
+
     else:  # BC
         A, B, C = fixed_value, x, y
-
-    dA = -A + C + 1 - A
-    dB = A - B - B
-    dC = B - C - C
-
-    if proj == "AB":
-        return dA, dB
-    elif proj == "AC":
-        return dA, dC
-    else:
+        _, dB, dC = model(0, [A, B, C])
         return dB, dC
 
 
-def plot_vector_field(proj, fixed_value):
+# def plot_vector_field(proj, fixed_value):
+#     x = np.linspace(0, 3, 20)
+#     y = np.linspace(0, 3, 20)
+#     X, Y = np.meshgrid(x, y)
+#     U = np.zeros_like(X)
+#     V = np.zeros_like(Y)
+
+#     for i in range(X.shape[0]):
+#         for j in range(X.shape[1]):
+#             U[i,j], V[i,j] = vector_field(X[i,j], Y[i,j], None, fixed_value, proj)
+
+#     plt.figure(figsize=(5,5))
+#     plt.quiver(X, Y, U, V)
+#     plt.xlabel(proj[0])
+#     plt.ylabel(proj[1])
+#     plt.title(f"Vektorové pole – projekcia {proj}, fix={fixed_value}")
+#     plt.grid()
+#     plt.show()
+
+# plot_vector_field("AB", fixed_value=solutions[C])
+# plot_vector_field("AC", fixed_value=solutions[B])
+# plot_vector_field("BC", fixed_value=solutions[A])
+
+def plot_vector_field(proj, fixed_value, equilibrium):
     x = np.linspace(0, 3, 20)
     y = np.linspace(0, 3, 20)
     X, Y = np.meshgrid(x, y)
@@ -111,16 +153,30 @@ def plot_vector_field(proj, fixed_value):
 
     for i in range(X.shape[0]):
         for j in range(X.shape[1]):
-            U[i,j], V[i,j] = vector_field(X[i,j], Y[i,j], None, fixed_value, proj)
+            U[i, j], V[i, j] = vector_field(
+                X[i, j], Y[i, j], fixed_value, proj
+            )
 
-    plt.figure(figsize=(5,5))
+    plt.figure(figsize=(5, 5))
     plt.quiver(X, Y, U, V)
+
+    # --- ekvilibrium ---
+    if proj == "AB":
+        eq_x, eq_y = equilibrium[A], equilibrium[B]
+    elif proj == "AC":
+        eq_x, eq_y = equilibrium[A], equilibrium[C]
+    else:  # BC
+        eq_x, eq_y = equilibrium[B], equilibrium[C]
+
+    plt.plot(eq_x, eq_y, 'ro', markersize=8, label="Ekvilibrium")
+
     plt.xlabel(proj[0])
     plt.ylabel(proj[1])
-    plt.title(f"Vektorové pole – projekcia {proj}, fix={fixed_value}")
+    plt.title(f"Vektorové pole – projekcia {proj}")
+    plt.legend()
     plt.grid()
     plt.show()
 
-plot_vector_field("AB", fixed_value=solutions[C])
-plot_vector_field("AC", fixed_value=solutions[B])
-plot_vector_field("BC", fixed_value=solutions[A])
+plot_vector_field("AB", fixed_value=solutions[C], equilibrium=solutions)
+plot_vector_field("AC", fixed_value=solutions[B], equilibrium=solutions)
+plot_vector_field("BC", fixed_value=solutions[A], equilibrium=solutions)
