@@ -82,7 +82,7 @@ print(J_eq.eigenvals())
 # 5. VEKTOROVÉ POLE – 2D PROJEKCIE
 # -------------------------------------------------
 
-def vector_field(x, y, fixed_var, fixed_value, proj="AB"):
+def vector_field(x, y, fixed_value, proj="AB"):
     if proj == "AB":
         A, B, C = x, y, fixed_value
     elif proj == "AC":
